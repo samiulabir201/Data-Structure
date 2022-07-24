@@ -1,6 +1,6 @@
 # Data-Structure
-1. [Strategic Approach to Dp]{#https://github.com/samiulabir201/Data-Structure/blob/main/Data%20Structure.md#multidimensional-dp}
-2. [General Info](#general-info)
+1. [Strategic Approach to Dp](#strategic-approach-to-dp)
+2. 
 ***
 ## Strategic Approach to Dp
 ### Multidimensional DP
