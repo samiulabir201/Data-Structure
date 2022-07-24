@@ -3,7 +3,7 @@
 2. 
 ***
 ## Strategic Approach to Dp
-###Framework for DP Problems
+### Framework for DP Problems
 In this section, we're going to talk about a framework for solving DP problems. This framework is applicable to nearly every DP problem and provides a clear step-by-step approach to developing DP algorithms.
 
 For this article's explanation, we're going to use the problem Climbing Stairs as an example, with a top-down (recursive) implementation. Take a moment to read the problem description and understand what the problem is asking.
