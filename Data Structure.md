@@ -1,5 +1,5 @@
 # Data-Structure
-1. Strategic Approach to Dp{#strategic-approach-to-dp}
+1. [Strategic Approach to Dp]{#strategic-approach-to-dp}
 ***
 ## Strategic Approach to Dp
 ### Multidimensional DP
