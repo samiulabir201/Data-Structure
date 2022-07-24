@@ -50,7 +50,7 @@ Finding the base cases is often the easiest part of solving a DP problem, and ju
 ##### Example Implementations
 Here is a basic top-down implementation using the 3 components from the framework:
 
-![Image 7-24-22 at 11 12 PM](https://user-images.githubusercontent.com/78860039/180659014-6176875e-359d-4876-9ea7-dab65e5259cc.jpg)
+![](/Images/code.png)
 
 Do you notice something missing from the code? We haven't memoized anything! The code above has a time complexity of O(2^n)O(2 
 n
