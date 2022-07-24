@@ -1,6 +1,8 @@
 # Data-Structure
+1. Strategic Approach to Dp{#strategic-approach-to-dp}
 ***
-## A  Multidimensional DP
+## Strategic Approach to Dp
+### Multidimensional DP
 
 
 The dimensions of a DP algorithm refer to the number of state variables used to define each state. So far all the algorithms we have looked at required only one state variable - therefore they are one-dimensional. In this section, we're going to talk about problems that require multiple dimensions.
