@@ -50,39 +50,43 @@ Finding the base cases is often the easiest part of solving a DP problem, and ju
 ##### Example Implementations
 Here is a basic top-down implementation using the 3 components from the framework:
 
-![](/Images/code.png)
-
+<p align="center">
+  <img src="images/code.jpeg" align = "center" width="500" height="200" />
+</p>
 Do you notice something missing from the code? We haven't memoized anything! The code above has a time complexity of O(2^n)O(2 
 n
  ) because every call to \text{dp}dp creates 2 more calls to \text{dp}dp. If we wanted to find how many ways there are to climb to the 250th step, the number of operations we would have to do is approximately equal to the number of atoms in the universe.
 
 In fact, without the memoization, this isn't actually dynamic programming - it's just basic recursion. Only after we optimize our solution by adding memoization to avoid repeated computations can it be called DP. As explained in chapter 1, memoization means caching results from function calls and then referring to those results in the future instead of recalculating them. This is usually done with a hashmap or an array.
 
+<p align="center">
+  <img src="images/Image 7-24-22 at 11.46 PM.jpg" align = "center" width="600" height="300" />
+</p>
 
 With memoization, our time complexity drops to O(n)O(n) - astronomically better, literally.
 
-You may notice that a hashmap is overkill for caching here, and an array can be used instead. This is true, but using a hashmap isn't necessarily bad practice as some DP problems will require one, and they're hassle-free to use as you don't need to worry about sizing an array correctly. Furthermore, when using top-down DP, some problems do not require us to solve every single subproblem, in which case an array may use more memory than a hashmap.
+> You may notice that a hashmap is overkill for caching here, and an array can be used instead. This is true, but using a hashmap isn't necessarily bad practice as some DP problems will require one, and they're hassle-free to use as you don't need to worry about sizing an array correctly. Furthermore, when using top-down DP, some problems do not require us to solve every single subproblem, in which case an array may use more memory than a hashmap.
 
 We just talked a whole lot about top-down, but what about bottom-up? Everything is pretty much the same, except we will start from our base cases and iterate up to our final answer. As stated before, bottom-up implementations usually use an array, so we will use an array \text{dp}dp where \text{dp[i]}dp[i] represents the number of ways to climb to the i^{th}i 
-th
-  step.
+th step.
+
+<p align="center">
+  <img src="images/Image 7-24-22 at 11.50 PM.jpg" align = "center" width="600" height="300" />
+</p>
+
+> Notice that the implementation still follows the framework exactly - the framework holds for both top-down and bottom-up implementations.
 
 
-Notice that the implementation still follows the framework exactly - the framework holds for both top-down and bottom-up implementations.
-
-
-
-To Summarize
+#### To Summarize
 With DP problems, we can use logical thinking to find the answer to the original problem for certain inputs, in this case we reason that there is 1 way to climb to the first stair and 2 ways to climb to the second stair. We can then use a recurrence relation to find the answer to the original problem for any state, in this case for any stair number. Finding the recurrence relation involves thinking about how moving from one state to another changes the answer to the problem.
 
 This is the essence of dynamic programming. Here's a quick animation for Climbing Stairs:
 
-Current
-1 / 6
+<p align="center">
+  <img src="images/BeFunky-collage.jpg" align = "center" />
+</p>
 
 
-Next Up
-For the rest of the explore card, we're going to use the framework to solve multiple examples, while explaining the thought process behind how to apply the framework at each step. It may be useful to refer back to the section of this article titled "The framework" as you move along the card. For now, take a deep breath - this was a lot to take in, but soon you will be equipped to start solving DP problems on your own.
 
 
 ### Multidimensional DP
