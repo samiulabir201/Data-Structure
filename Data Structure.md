@@ -1,6 +1,9 @@
 # Data-Structure
 1. [Strategic Approach to Dp](#strategic-approach-to-dp)
-2. 
+2. [Common Patterns In Dp](#common-patterns-in-dp)
+3. [Common Patterns Continued](#common-patterns-continued)
+4. [Dp for paths in matrix](#dp-for-paths-in-matrix)
+5. [More Practice Problems](#more-practice-problems)
 ***
 ## Strategic Approach to Dp
 ### Framework for DP Problems
@@ -98,4 +101,7 @@ nums = [0, 1, 2, 3, 4, 5, 6], then dp(4) would represent the answer to the probl
 
 Multi-dimensional problems make us think harder about deciding what our function or array will represent, as well as what the recurrence relation should look like. In the next article, we'll walk through another example using the framework with a 2D DP problem.
 
-
+## Common Patterns In Dp
+## Common Patterns Continued
+## Dp for paths in matrix
+## More Practice Problems
