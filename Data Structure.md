@@ -7,9 +7,9 @@
 ***
 ## Strategic Approach to Dp
 1. [Framework for DP Problems](#framework-for-dP-problems)
-2. [Example 198. House Robber](#example-198.-house-robber)
+2. [Example 198 House Robber](#example-198-house-robber)
 3. [Multidimensional DP](#multidimensional-dP)
-4. [Example 1770. Maximum Score from Performing Multiplication Operations](#example-1770.-maximum-score-from-performing-multiplication-operations)
+4. [Example 1770 Maximum Score from Performing Multiplication Operations](#example-1770-maximum-score-from-performing-multiplication-operations)
 5. [Time and Space Complexity](#time-and-space-complexity)
 6. [Chapter 2 quiz](#chapter-2-quiz)
 ### Framework for DP Problems
@@ -92,7 +92,7 @@ This is the essence of dynamic programming. Here's a quick animation for Climbin
   <img src="images/BeFunky-collage.jpg" align = "center" />
 </p>
 
-### Example 198. House Robber
+### Example 198 House Robber
 
 > This is the first of 6 articles where we will use a framework to work through example DP problems. The framework provides a blueprint to solve DP problems, but when you are just starting to learn DP, deriving some of the logic yourself may be difficult. The objective of these articles is to talk through how to use the framework to work through each problem, and our goal is that, by the end of this, you will be able to independently tackle most DP problems using this framework.
 
@@ -223,7 +223,7 @@ dp[n - 1].
   <img src="images/Screen Shot 2022-07-25 at 10.52.15 AM.png" align = "center"  width="600" height="250"/>
 </p>
 
-###  Example 1770. Maximum Score from Performing Multiplication Operations
+###  Example 1770 Maximum Score from Performing Multiplication Operations
 
 > For this problem, we will again start by looking at a top-down approach.
 In this article, we're going to be looking at the problem [Maximum Score from Performing Multiplication Operations](https://leetcode.com/problems/maximum-score-from-performing-multiplication-operations/). We can tell this is a DP problem because it is asking for a maximum score, and every time we choose to use a number from nums, it affects all future possibilities. Let's solve this problem with the framework:
