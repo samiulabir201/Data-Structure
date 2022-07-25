@@ -1,18 +1,15 @@
-# Data-Structure
-1. [Strategic Approach to Dp](#strategic-approach-to-dp)
-2. [Common Patterns In Dp](#common-patterns-in-dp)
-3. [Common Patterns Continued](#common-patterns-continued)
-4. [Dp for paths in matrix](#dp-for-paths-in-matrix)
-5. [More Practice Problems](#more-practice-problems)
-***
-## Strategic Approach to Dp
-1. [Framework for DP Problems](#framework-for-dP-problems)
-2. [Example 198 House Robber](#example-198-house-robber)
-3. [Multidimensional DP](#multidimensional-dP)
-4. [Example 1770 Maximum Score from Performing Multiplication Operations](#example-1770-maximum-score-from-performing-multiplication-operations)
-5. [Time and Space Complexity](#time-and-space-complexity)
+# Dynamic-Programming
 
-### Framework for DP Problems
+***
+<details>
+  <summary markdown="span"><strong>Strategic Approach to Dp</strong> </summary>
+
+
+<h4> Strategic Approach to Dp <h4>
+<details>
+  <summary markdown="span">Framework for DP Problems </summary>
+
+<h5> Framework for DP Problems<h5>
 In this section, we're going to talk about a framework for solving DP problems. This framework is applicable to nearly every DP problem and provides a clear step-by-step approach to developing DP algorithms.
 
 > For this article's explanation, we're going to use the problem [Climbing Stairs](https://leetcode.com/problems/climbing-stairs/) as an example, with a top-down (recursive) implementation. Take a moment to read the problem description and understand what the problem is asking.
@@ -91,8 +88,12 @@ This is the essence of dynamic programming. Here's a quick animation for Climbin
 <p align="center">
   <img src="images/BeFunky-collage.jpg" align = "center" />
 </p>
+</details>
 
-### Example 198 House Robber
+<details>
+  <summary markdown="span"><strong>Example 198 House Robber</strong> </summary>
+
+<h5> Example 198 House Robber<h5>
 
 > This is the first of 6 articles where we will use a framework to work through example DP problems. The framework provides a blueprint to solve DP problems, but when you are just starting to learn DP, deriving some of the logic yourself may be difficult. The objective of these articles is to talk through how to use the framework to work through each problem, and our goal is that, by the end of this, you will be able to independently tackle most DP problems using this framework.
 
@@ -152,10 +153,12 @@ For both implementations, the time and space complexity is O(n)O(n). We'll talk 
 
 
 
+  </details>
 
+<details>
+  <summary markdown="span"><strong>Multidimensional DP</strong> </summary>
 
-
-### Multidimensional DP
+<h5> Multidimensional DP<h5>
 
 
 The dimensions of a DP algorithm refer to the number of state variables used to define each state. So far all the algorithms we have looked at required only one state variable - therefore they are one-dimensional. In this section, we're going to talk about problems that require multiple dimensions.
@@ -222,8 +225,11 @@ dp[n - 1].
 <p align="center">
   <img src="images/Screen Shot 2022-07-25 at 10.52.15 AM.png" align = "center"  width="600" height="250"/>
 </p>
+  </details>
+<details>
+  <summary markdown="span"><strong>Example 1770 Maximum Score from Performing Multiplication Operations</strong> </summary>
 
-###  Example 1770 Maximum Score from Performing Multiplication Operations
+<h5>Example 1770 Maximum Score from Performing Multiplication Operations<h5>
 
 > For this problem, we will again start by looking at a top-down approach.
 In this article, we're going to be looking at the problem [Maximum Score from Performing Multiplication Operations](https://leetcode.com/problems/maximum-score-from-performing-multiplication-operations/). We can tell this is a DP problem because it is asking for a maximum score, and every time we choose to use a number from nums, it affects all future possibilities. Let's solve this problem with the framework:
@@ -303,8 +309,12 @@ Earlier in the explore card, we learned that while bottom-up is typically faster
 </p>
 
 The time and space complexity of both implementations is O(m^2) where m is the length of multipliers. We will talk about more in depth about time and space complexity at the end of this chapter.
+  </details>
+  
+ <details>
+  <summary markdown="span"><strong>Time and Space Complexity</strong> </summary>
 
-### Time and Space Complexity
+<h5> Time and Space Complexity<h5>
 
 Finding the time and space complexity of a dynamic programming algorithm may sound like a daunting task. However, this task is usually not as difficult as it sounds. Furthermore, justifying the time and space complexity in an explanation is relatively simple as well. One of the main points with DP is that we never repeat calculations, whether by tabulation or memoization, we only compute a state once. Because of this, the time complexity of a DP algorithm is directly tied to the number of possible states.
 
@@ -315,10 +325,20 @@ k is an integer given in the input which represents the maximum actions we can d
 nums.length, k can be from 0 to K, and holding }can be true or false. Therefore, there are n⋅K⋅2 states. If computing each state is O(1), then the time complexity will be O(n⋅K⋅2)=O(n⋅K).
 
 Whenever we compute a state, we also store it so that we can refer to it in the future. In bottom-up, we tabulate the results, and in top-down, states are memoized. Since we store states, the space complexity is equal to the number of states. That means that in problems where calculating a state is O(1), the time and space complexity are the same. In many DP problems, there are optimizations that can improve both complexities - we'll talk about this later.
+  </details>
+</details>
+  </details>
 
+<details>
+  <summary markdown="span"><strong>Common Patterns In Dp</strong> </summary>
+ </details>
+<details>
+  <summary markdown="span"><strong>Common Patterns Continued</strong> </summary>
+ </details>
+ <details>
+  <summary markdown="span"><strong>Dp for paths in matrix</strong> </summary>
+ </details>
+ <details>
+  <summary markdown="span"><strong>More Practice Problems</strong> </summary>
+ </details>
 
-
-## Common Patterns In Dp
-## Common Patterns Continued
-## Dp for paths in matrix
-## More Practice Problems
