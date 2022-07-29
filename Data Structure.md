@@ -527,70 +527,27 @@ In summary, the criteria is:
 
 3. Base cases
 
-The base case for this problem is another simple one. The first word used from 
-wordDict
-wordDict starts at index 
-0
-0, which means we would need to check 
-dp[-1]
-dp[-1] for the second criteria, which is out of bounds. To fix this, we say that the second criteria can also be satisfied by 
-i == word.length - 1
-i == word.length - 1.
+The base case for this problem is another simple one. The first word used from wordDict starts at index 0, which means we would need to check dp[-1] for the second criteria, which is out of bounds. To fix this, we say that the second criteria can also be satisfied by i == word.length - 1.
 
 
 
-Bottom-up Implementation
+#### Bottom-up Implementation
+
+<p align="center">
+  <img src="images/Screen Shot 2022-07-29 at 6.00.13 PM.png" align = "center"/>
+</p> 
 
 
 
+#### Top-down Implementation
 
-Top-down Implementation
+In the top-down approach, we can check for the base case by returning true if i < 0. In Java, we will memoize by using a -1 to indicate that the state is unvisited, 0 to indicate false, and 1 to indicate true.
 
-In the top-down approach, we can check for the base case by returning 
-true
-true if 
-i < 0
-i < 0. In Java, we will memoize by using a 
--1
--1 to indicate that the state is unvisited, 
-0
-0 to indicate 
-false
-false, and 
-1
-1 to indicate 
-true
-true.
+<p align="center">
+  <img src="images/Top-down Implementation.jpg" align = "center"/>
+</p>                                                                                    
 
-
-Let's say that 
-n = s.length
-n = s.length, 
-k = wordDict.length
-k = wordDict.length, and 
-L
-L is the average length of the words in 
-wordDict
-wordDict. While the space complexity for this problem is the same as the number of states 
-n
-n, the time complexity is much worse. At each state 
-i
-i, we iterate through 
-wordDict
-wordDict and splice 
-s
-s to a new string with average length 
-L
-L. This gives us a time complexity of 
-O
-(
-n
-⋅
-k
-⋅
-L
-)
-O(n⋅k⋅L).
+Let's say that n = s.length, k = wordDict.length, and L is the average length of the words in wordDict. While the space complexity for this problem is the same as the number of states n, the time complexity is much worse. At each state i, we iterate through wordDict and splice s to a new string with average length L. This gives us a time complexity of O(n⋅k⋅L).
 
 
 </details>
