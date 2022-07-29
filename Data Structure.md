@@ -325,25 +325,42 @@ The time and space complexity of both implementations is O(m^2) where m is the l
   Whenever we compute a state, we also store it so that we can refer to it in the future. In bottom-up, we tabulate the results, and in top-down, states are memoized. Since we store states, the space complexity is equal to the number of states. That means that in problems where calculating a state is O(1), the time and space complexity are the same. In many DP problems, there are optimizations that can improve both complexities - we'll talk about this later.
   </details>
 </details>
-
-
+ 
+   
+   
+   
+   
+   
+   
+   
+   
+   
 <details>
   <summary markdown="span"><strong><h2>Common Patterns In Dp</h2></strong> </summary>
-    <details>
-      <summary markdown="span"><strong>Iteration in the recurrence relation</strong></summary>
-            In all the problems we have looked at so far, the recurrence relation is a static equation - it never changes. Recall Min Cost Climbing Stairs. The      recurrence relation was: dp(i)=min(dp(i - 1) + cost[i - 1], dp(i - 2) + cost[i - 2]) because we are only allowed to climb 1 or 2 steps at a time. What if the question was rephrased so that we could take up to 
-k steps at a time? The recurrence relation would become dynamic - it would be:dp(i)=min(dp(j) + cost[j]) for all (i - k)≤j<i
+<details>
+  <summary markdown="span"><strong>Iteration in the recurrence relation</strong></summary>
+          In all the problems we have looked at so far, the recurrence relation is a static equation - it never changes. Recall Min Cost Climbing Stairs. The recurrence relation was:
+dp(i)=min(dp(i - 1) + cost[i - 1], dp(i - 2) + cost[i - 2])
+
+because we are only allowed to climb 1 or 2 steps at a time. What if the question was rephrased so that we could take up to 
+k steps at a time? The recurrence relation would become dynamic - it would be:
+dp(i)=min(dp(j) + cost[j]) for all (i - k)≤j<i
 
 We would need iteration in our recurrence relation.
 
 This is a common pattern in DP problems, and in this chapter, we're going to take a look at some problems using the framework where this pattern is applicable. While iteration usually increases the difficulty of a DP problem, particularly with bottom-up implementations, the idea isn't too complicated. Instead of choosing from a static number of options, we usually add a for-loop to iterate through a dynamic number of options and choose the best one.
-    </details>
+
+
+</details>
   
 <details>
-  <summary markdown="span"><strong>Example 1335 Minimum Difficulty of a Job Schedule</strong></summary>
-<h5></h5>
- We'll start with a top-down approach.
-In this article, we'll be using the framework to solve Minimum Difficulty of a Job Schedule. We can tell this is a problem where Dynamic Programming can be used because we are asked for the minimum of something, and deciding how many jobs to do on a given day affects the jobs we can do on all future days. Let's start solving:
+  <summary markdown="span"><strong>Example 1335 Minimum Difficulty of a Job Schedul</strong> </summary>
+  
+  
+>  We'll start with a top-down approach.
+
+
+In this article, we'll be using the framework to solve [Minimum Difficulty of a Job Schedule](https://leetcode.com/problems/minimum-difficulty-of-a-job-schedule/). We can tell this is a problem where Dynamic Programming can be used because we are asked for the minimum of something, and deciding how many jobs to do on a given day affects the jobs we can do on all future days. Let's start solving:
 
 1. A function that answers the problem for a given state
 
@@ -354,6 +371,14 @@ Let's first decide on state variables. What decisions are there to make, and wha
 * Let's use another state variable day, where day indicates what day it currently is.
 
 The problem is asking for the minimum difficulty, so let's have a function dp(i, day) that returns the minimum difficulty of a job schedule which starts on the ith job and day. To solve the original problem, we will just return dp(0, 1), since we start on the first day with no jobs done yet.
+  
+<p align="center">
+  <img src="images/Screen Shot 2022-07-26 at 6.50.51 AM.png" align = "center"  width="600" height="200"/>
+</p>
+  
+<p align="center">
+  <img src="images/Screen Shot 2022-07-26 at 6.51.00 AM.png" align = "center"  width="600" height="200"/>
+</p>
 
 2. A recurrence relation to transition between states
 
@@ -363,20 +388,23 @@ We should try all the options for a given day - try doing only one job, then two
 
 The difficulty of a given day is the most difficult job that we did that day. Since the jobs have to be done in order, if we are trying all the jobs we are allowed to do on that day (iterating through them), then we can use a variable hardest to keep track of the difficulty of the hardest job done today. If we choose to do jobs up to the jth job (inclusive), where i≤j<n - (d - day) (as derived above), then that means on the next day, we start with the 
 (j+1)th job. Therefore, our total difficulty is hardest + dp(j + 1, day + 1). This gives us our scariest recurrence relation so far: 
-dp(i, day) = min(hardest + dp(j + 1, day + 1)) for all i≤j<n - (d - day), 
-where hardest = max(jobDifficulty[k]) for all i≤k≤j.
+
+dp(i, day) = min(hardest + dp(j + 1, day + 1)) for all i≤j<n - (d - day),where 
+  
+hardest = max(jobDifficulty[k]) for all i≤k≤j.
 
 The codified recurrence relation is a scary one to look at for sure. However, it is easier to understand when we break it down bit by bit. On each day, we try all the options - do only one job, then two jobs, etc. until we can't do any more (since we need to leave some jobs for future days). 
 hardest is the hardest job we do on the current day, which means it is also the difficulty of the current day. We add hardest to the next state which is the next day, starting with the next job. After trying all the jobs we are allowed to do, choose the best result.
-
-Current
-1 / 3
-
+  
+<p align="center">
+  <img src="images/BeFunky-collage (3).jpg" align = "center"/>
+</p>  
 
 3. Base cases
 
 Despite the recurrence relation being complicated, the base cases are much simpler. We need to finish all jobs in d days. Therefore, if it is the last day 
 (day == d), we need to finish up all the remaining jobs on this day, and the total difficulty will just be the largest number in jobDifficulty on or after index i.
+
 if day == d then return the maximum job difficulty between job i and the end of the array (inclusive).
 
 We can precompute an array hardestJobRemaining where hardestJobRemaining[i] represents the difficulty of the hardest job on or after day i, so that this base case is handled in constant time.
@@ -385,25 +413,45 @@ Additionally, if there are more days than jobs (n < d), then it is impossible to
 
 
 
-Top-down Implementation
+#### Top-down Implementation
 
 Let's combine these 3 parts for a top-down implementation. Again, we will use [functools](https://docs.python.org/3/library/functools.html) in Python, and a 2D array in Java for memoization. In the Python implementation, we are passing None to lru_cache which means the cache size is not limited. We are doing this because the number of states that will be re-used in this problem is large, and we don't want to evict a state early and have to re-calculate it.
 
+<p align="center">
+  <img src="images/top-down.jpg" align = "center" align = "center"  width="800" height="1000"/>
+</p>  
 
 
 
-Bottom-up Implementation
+#### Bottom-up Implementation
 
 With bottom-up, we now use a 2D array where dp[i][day] represents the minimum difficulty of a job schedule that starts on day and job i. It depends on the problem, but the bottom-up code generally has a faster runtime than its top-down equivalent. However, as you can see from the code, it looks like it is more challenging to implement. We need to first tabulate the base case and then work backwards from them using nested for loops.
 
 The for-loops should start iterating from the base cases, and there should be one for-loop for each state variable. Remember that one of our base cases is that on the final day, we need to complete all jobs. Therefore, our for-loop iterating over day should iterate from the final day to the first day. Then, our next for-loop for i should conform to the restraints of the problem - we need to do at least one job per day.
 
+<p align="center">
+  <img src="images/BeFunky-collage (4).jpg" align = "center" align = "center"  width="600" height="500"/>
+</p> 
 
 Here's an animation showing the algorithm in action:
 
+<p align="center">
+  <img src="images/BeFunky-collage (5).jpg" align = "center" align = "center"  width="800" height="500"/>
+</p> 
 
-
-
+<p align="center">
+  <img src="images/10-18.jpg" align = "center" align = "center"  width="800" height="500"/>
+</p> 
+  
+<p align="center">
+  <img src="images/19-27.jpg" align = "center" align = "center"  width="800" height="500"/>
+</p>
+  
+<p align="center">
+  <img src="images/28-30.jpg" align = "center" align = "center"/>
+</p> 
+  
+  
 The time and space complexity of these algorithms can be quite tricky, and as in this example, there are sometimes slight differences between the top-down and bottom-up complexities.
 
 Let's start with the bottom-up space complexity, because it follows what we learned in the previous chapter about finding time and space complexity. For this problem, the number of states is n⋅d. This means the space complexity is O(n⋅d) as our dp table takes up that much space.
@@ -424,9 +472,9 @@ Space complexity (bottom-up): O(n⋅d)
 > While the theoretical space complexity is better with top-down, practically speaking, the 2D array is more space-efficient than a hashmap, and the difference in space complexities here doesn't justify saying that top-down will use less space than bottom-up.
 </details>
   
-  <details>
-     <summary markdown="span"><strong>Example 139 Word Break</strong></summary>
-  </details>
+<details>
+   <summary markdown="span"><strong>Example 139 Word Break</strong></summary>
+</details>
   
   <details>
      <summary markdown="span"><strong>State Transition by Inaction</strong></summary>
@@ -530,4 +578,3 @@ Space complexity (top-down): O((n−d)⋅d)
 Space complexity (bottom-up): O(n⋅d)
 
 > While the theoretical space complexity is better with top-down, practically speaking, the 2D array is more space-efficient than a hashmap, and the difference in space complexities here doesn't justify saying that top-down will use less space than bottom-up.
-
