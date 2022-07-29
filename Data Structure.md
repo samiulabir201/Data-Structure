@@ -734,7 +734,69 @@ While usage of Kadane's Algorithm is a niche, variations of Kadane's Algorithm c
 </details>
  <details>
    <summary markdown="span"><strong><h2>Dp for paths in matrix</h2></strong> </summary>
- </details>
+ <details>
+   <summary markdown="span"><strong>Pathing Problems</strong> </summary>
+ The last pattern we'll be looking at is pathing problems on a matrix. These problems have matrices as part of the input and give rules for "moving" through the matrix in the problem description. Typically, DP will be applicable when the allowed movement is constrained in a way that prevents moving "backwards", for example if we are only allowed to move down and right.
+
+<p align="center">
+  <img src="images/Screen Shot 2022-07-29 at 7.54.10 PM.png" align = "center"/>
+</p> 
+
+
+If we are allowed to move in all 4 directions, then it might be a graph/BFS problem instead. This pattern is sometimes combined with other patterns we have looked at, such as counting DP.
+
+In terms of difficulty, these problems are usually less difficult than the average DP problem as the recurrence relation is usually directly related to the rules of traversal. Most of these problems are also very similar or are variations of each other, and because of this, knowing a general approach to these problems can go a long way.
+
+Let's walk through one last example with the framework, and then finish this card with a few good practice problems.
+
+</details>
+<details>
+   <summary markdown="span"><strong> Example 62. Unique Paths</strong> </summary>
+ Source: https://leetcode-cn.com/leetbook/read/bit-manipulation-and-math/ovonij/ LeetCode: https://leetcode.com/problems/unique-paths/
+
+Method 1: Dynamic Programming
+
+We can use f(i, j) to denote the number of paths from the upper left corner to (i, j), where the possible range of i and j is [0, m) and [0, n), respectively.
+
+Since the robot can only move either down or right at each step, to reach (i, j), the robot will need to take one step down from (i-1, j), or take one step right from (i, j-1). Therefore, the state transfer function is: f(i,j)=f(i−1,j)+f(i,j−1)
+
+It is worth noting that when i = 0, f(i-1, j) is not a valid state, so we need to ignore this term. Similarly, when j = 0, f(i, j-1) is not a valid state, so we need to ignore this item.
+
+The base case is f(0, 0) = 1, that is, there is one way to go from the upper left corner to the upper left corner.
+
+The result is f(m-1, n-1).
+
+For implementation, we will set all f(0, j) and f(i, 0) to 1 as base cases.
+
+
+Complexity Analysis
+
+* Time complexity: O(mn).
+
+* Space complexity: O(mn), which is the space required to store all states. Note that f(i, j) is only related to row i and row i - 1, so we can use rolling arrays to reduce the space complexity to O(n). Moreover, since rotating the matrix does not affect the answer, we can always swap m and n so that 
+m≤n, which reduces the space complexity to O(\min(m, n)).
+
+#### Method 2: Combinatorics
+
+In the process to move from the upper left corner to the lower right corner, we need to move m + n - 2 times. Among them, there are m – 1 moves down and n – 1 moves to the right. Therefore, the total number of possible paths is equal to the number of combinations for selecting m – 1 downward moves from m + n – 2 total moves, and the number of combinations can be calculated as,
+
+<p align="center">
+  <img src="images/Screen Shot 2022-07-29 at 7.51.12 PM.png" align = "center"/>
+</p> 
+
+There are multiple ways to calculate the number of combinations. If the programming language has an API for calculating the combinatorial number, we can call the API directly; If there is no corresponding API, we can use the formula 
+<p align="center">
+  <img src="images/Screen Shot 2022-07-29 at 7.51.20 PM.png" align = "center"/>
+</p> 
+
+to calculate.
+
+
+Complexity Analysis
+
+Time complexity: O(m). Since swapping the rows and columns does not affect the answer, we can always swap m and n such that m≤n, which reduces the space complexity to O(min(m,n)).
+Space complexity: O(1).
+</details>
  <details>
   <summary markdown="span"><strong><h2>More Practice Problems</h2></strong> </summary>
  </details>
