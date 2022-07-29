@@ -551,22 +551,187 @@ Let's say that n = s.length, k = wordDict.length, and L is the average length of
 
 
 </details>
+   
+   
+<details>
+  <summary markdown="span"><strong>State Transition by Inaction</strong></summary>  
+This is a small pattern that occasionally shows up in DP problems. Here, "doing nothing" refers to two different states having the same value. We're calling it "doing nothing" because often the way we arrive at a new state with the same value as the previous state is by "doing nothing" (we'll look at some examples soon). Of course, a decision making process needs to coexist with this pattern, because if we just had all states having the same value, the problem wouldn't really make sense (dp(i) = dp(i - 1)?) It is just that if we are trying to maximize or minimize a score for example, sometimes the best option is to "do nothing", which leads to two states having the same value. The actual recurrence relation would look something like 
   
-  <details>
-     <summary markdown="span"><strong>State Transition by Inaction</strong></summary>
-  </details>
+dp(i, j) = max(dp(i - 1, j), ...).
+
+Usually when we "do nothing", it is by moving to the next element in some input array (which we usually use i as a state variable for). As mentioned above, this will be part of a decision making process due to some restriction in the problem. For example, think back to House Robber: we could choose to rob or not rob each house we were at. Sometimes, not robbing the house is the best decision (because we aren't allowed to rob adjacent houses), then 
   
-  <details>
-  <summary markdown="span"><strong>Example 188 Best Time to Buy and Sell Stock IV</strong></summary>
-  <h5> Txample 188 Best Time to Buy and Sell Stock IV<h5>
-        hello
-  </details>
+dp(i) = dp(i - 1).
+
+In the next article, we'll use the framework to solve a problem with this pattern.
+</details>
+  
+<details>
+ <summary markdown="span"><strong>Example 188 Best Time to Buy and Sell Stock IV</strong></summary>
+  
+> For this one, we're back to starting with top-down.
+  
+In this article, we'll be using the framework to solve Best Time to Buy and Sell Stock IV. This problem is rated as "hard" and may seem daunting at first, but with the framework, the logic behind solving this problem is very intuitive. We'll also make use of the pattern of "doing nothing". Like usual, let's use the framework to develop an algorithm:
+
+1. A function that answers the problem for a given state
+
+What information do we need at each state/decision?
+
+We need to know what day it is (so we can look up the current price of the stock), and we need to know how many transactions we have left. These two are directly related to the input.
+
+The note in the problem description says that we cannot engage in multiple transactions at the same time. This means that at any moment, we are either holding one unit of stock or not holding any stock. We should have a state variable that indicates if we are currently holding stock. This variable is fine as a boolean, but for caching purposes, let's use an integer alternating between 0 and 1 (0 means not holding, 1 means holding).
+
+To summarize, we have 3 state variables:
+  1. i, which represents we are on the ith day. The current price of the stock is prices[i].
+  2. transactionsRemaining, which represents how many transactions we have left. This number goes down by 1 whenever we sell a stock.
+  3. holding, which is equal to 0 if we are not holding a stock, and 1 if we are holding a stock. If holding is 0, we have the option to buy a stock. Otherwise, we have the option to sell a stock.
+
+The problem is asking for a maximum achievable profit. Therefore, let's have a function dp where dp(i, transactionsRemaining, holding) returns the maximum achievable profit starting from the ith day with transactionsRemaining transactions remaining, and holding indicating if we start with a stock or not. To answer the original problem, we would return dp(0, k, 0), as we start on day 0 with k transactions remaining and not holding a stock.
+
+2. A recurrence relation to transition between states
+
+At each state, we need to make a decision that depends on what holding is. Let's split it up and look at our options one at a time:
+
+* If we are holding stock, we have two options. We can sell, or not sell. If we choose to sell, we gain prices[i] money, and the next state will be 
+(i + 1, transactionsRemaining - 1, 0). This is because it is the next day (i + 1), we lose a transaction as we completed one by selling (transactionsRemaining - 1), and we are no longer holding a stock (0). In total, our profit is prices[i] + dp(i + 1, transactionsRemaining - 1, 0). If we choose not to sell and do nothing, then we just move onto the next day with the same number of transactions, while still holding the stock. Our profit is 
+dp(i + 1, transactionsRemaining, holding).
+
+* If we are not holding stock, we have two options. We can buy, or not buy. If we choose to buy, we lose prices[i] money, and the next state will be 
+(i + 1, transactionsRemaining, 1). This is because it is the next day, we have the same number of transactions because transactions are only completed on selling, and we now hold a stock. In total, our profit is -prices[i] + dp(i + 1, transactionsRemaining, 1). If we choose not to buy and do nothing, then we just move onto the next day with the same number of transactions, while still not having stock. Our profit is dp(i + 1, transactionsRemaining, holding).
+
+> Note that you could also set up the solution so that transactions are completed upon buying a stock instead.
+Of course, we always want to make the best decision. We can see that in both scenarios, doing nothing is the same - dp(i + 1, transactionsRemaining, holding). Therefore, we have a recurrence relation of:
+
+dp(i, transactionsRemaining, holding) = max(doNothing, sellStock) if holding == 1 otherwise max(doNothing, buyStock)
+
+Where,
+doNothing = dp(i + 1, transactionsRemaining, holding),
+sellStock = prices[i] + dp(i + 1, transactionsRemaining - 1, 0), and
+buyStock = -prices[i] + dp(i + 1, transactionsRemaining, 1).
+
+<p align="center">
+  <img src="images/Screen Shot 2022-07-29 at 6.42.29 PM.png" align = "center"/>
+</p>   
+
+3. Base cases
+
+Both base cases are very simple for this problem. If we are out of transactions (transactionsRemaining = 0), then we should immediately return 0 as we cannot make any more money. If the stock is no longer on the market (i = prices.length), then we should also return 0, as we cannot make any more money.
+
+
+
+#### Top-down Implementation
+
+<p align="center">
+  <img src="images/exam 188 Top-down Implementation.jpg" align = "center"/>
+</p>  
+
+
+#### Bottom-up Implementation
+
+<p align="center">
+  <img src="images/Screen Shot 2022-07-29 at 6.43.07 PM.png" align = "center"/>
+</p>  
+
+
+Again, the recurrence relation is the same with top-down, but we need to be careful about how we configure our for loops. The base cases are automatically handled because the dp array is initialized with all values set to 0. For iteration direction and order, remember with bottom-up we start at the base cases. Therefore we will start iterating from the end of the input and with only 1 transaction remaining.
+
+
+The time and space complexity of this problem for both implementations is the number of states since the recurrence relation is just a constant time formula. If n = prices.length, then this means the time and space complexity is O(n⋅k⋅2)=O(n⋅k).
+</details>
   
  </details>
    
 <details>
   <summary markdown="span"><strong><h2>Common Patterns Continued</h2></strong> </summary>
- </details>
+<details>
+  <summary markdown="span"><strong>State Reduction</strong> </summary>
+  In an earlier chapter when we used the framework to solve Maximum Score from Performing Multiplication Operations, we mentioned that we could use 2 state variables instead of 3 because we could derive the information the 3rd one would have given us from the other 2. By doing this, we greatly reduced the number of states (as we learned earlier, the number of states is the product of the number of values each state variable can take). In most cases, reducing the number of states will reduce the time and space complexity of the algorithm.
+
+This is called state reduction, and it is applicable for many DP problems, including a few that we have already looked at. State reduction usually comes from a clever trick or observation. Sometimes, as is in the case of Maximum Score from Performing Multiplication Operations, state reduction can result in lower time and space complexity. Other times, only the space complexity will be improved while the time complexity remains the same.
+
+State reduction can also be achieved in the recurrence relation. Recall when we looked at House Robber. Only one state variable was used, i, which indicates what house we are currently at. An alternative way to solve the problem would be adding an extra boolean state variable prev that indicates if we robbed the previous house or not, and that would look something like this:
+<img width="805" alt="Screen Shot 2022-07-29 at 7 12 37 PM" src="https://user-images.githubusercontent.com/78860039/181767847-858a2400-a118-445e-a315-34ff3233ee2c.png">
+
+
+However, we mentioned in the House Robber article: "We certainly could include this state variable, but we can develop our recurrence relation in a way that makes it unnecessary.". By using a clever recurrence relation and base case, we avoided the need for the extra state variable which reduces the number of states by a factor of 2.
+
+> Note: state reductions for space complexity usually only apply to bottom-up implementations, while improving time complexity by reducing the number of 
+state variables applies to both implementations.
+
+When it comes to reducing state variables, it's hard to give any general advice or blueprint. The best advice is to try and think if any of the state variables are related to each other, and if an equation can be created among them. If a problem does not require iteration, there is usually some form of state reduction possible.
+
+Another common scenario where we can improve space complexity is when the recurrence relation is static (no iteration) along one dimension. Let's look back at where we started - Fibonacci. Recall that the ith Fibonacci number can be calculated with the recurrence relation:
+
+F(i)=F(i−1)+F(i−2)
+
+Because this recurrence relation is static, to calculate the ith  Fibonacci number, we only ever care about the previous two numbers. That means if we are using a bottom-up approach to find the nth  Fibonacci number and start from the base cases, we don't actually need to use an array and remember every single Fibonacci number.
+
+Let's say we wanted F(100). Starting from the base cases, we need to calculate every Fibonacci number from F(2) to F(99), but at the time of the actual calculation for F(100), we only care about F(98) and F(99). The other 90+ Fibonacci numbers aren't needed, so storing all of them is a waste of space.
+
+<p align="center">
+  <img src="images/1-4.jpg" align = "center"/>
+</p>  
+
+
+Using only two variables instead, we can improve space complexity to O(1) from O(n) using an array. The time complexity remains the same.
+
+<p align="center">
+  <img src="images/Screen Shot 2022-07-29 at 7.23.50 PM.png" align = "center"/>
+</p>  
+
+Whenever you notice that values calculated by a DP algorithm are only reused a few times and then never used again, try to see if you can save on space by replacing an array with some variables. A good first step for this is to look at the recurrence relation to see what previous states are used. For example, in Fibonacci, we only refer to the previous two states, so all results before n - 2 can be discarded.
+
+</details>
+  
+<details>
+  <summary markdown="span"><strong>Counting DP</strong> </summary>
+Most of the problems we have looked at in earlier chapters ask for either the maximum, minimum, or longest of something. However, it is also very common for a DP problem to ask for the number of distinct ways to do something. In fact, one of the first examples we looked at did this - recall that Climbing Stairs asked us to find the number of ways to climb to the top of the stairs.
+
+> Another term used to describe this class of problems is "counting DP".
+  
+What are the differences with counting DP? With the maximum/minimum problems, the recurrence relation typically involves a max() or min() function. This is true for all types of problems we have looked at - iteration, multi-dimensional, etc. With counting DP, the recurrence relation typically just sums the results of multiple states together. For example, in Climbing Stairs, the recurrence relation was dp(i) = dp(i - 1) + dp(i - 2). There is no max() or 
+min(), just addition.
+
+Another difference is in the base cases. In most of the problems we have looked at, if the state goes out of bounds, the base case equals 0. For example, in the Best Time to Buy and Sell Stock questions, when we ran out of transactions or ran out of days to trade, we returned 0 because we can't make any more profit. In Longest Common Subsequence, when we run out of characters for either string, we return 0 because the longest common subsequence of any string and an empty string is 0. With counting DP, the base cases are often not set to 0. This is because the recurrence relation usually only involves addition terms with other states, so if the base case was set to 0 then you would only ever add 0 to itself. Finding these base cases involves some logical thinking - for example, when we looked at Climbing Stairs - we reasoned that there is 1 way to climb to the first step and 
+2 ways to climb to the second step.
+</details>
+  
+<details>
+  <summary markdown="span"><strong> Kadane's Algorithm</strong> </summary>
+
+ [Kadane's Algorithm](https://en.wikipedia.org/wiki/Maximum_subarray_problem#Kadane's_algorithm) is an algorithm that can find the maximum sum subarray given an array of numbers in O(n) time and O(1) space. Its implementation is a very simple example of dynamic programming, and the efficiency of the algorithm allows it to be a powerful tool in some DP algorithms. If you haven't already solved Maximum Subarray, take a quick look at the problem before continuing with this article - Kadane's Algorithm specifically solves this problem.
+
+Kadane's Algorithm involves iterating through the array using an integer variable current, and at each index i, determines if elements before index i are "worth" keeping, or if they should be "discarded". The algorithm is only useful when the array can contain negative numbers. If current becomes negative, it is reset, and we start considering a new subarray starting at the current index.
+
+Pseudocode for the algorithm is below:
+
+// Given an input array of numbers "nums",
+1. best = negative infinity
+2. current = 0
+3. for num in nums:
+    3.1. current = Max(current + num, num)
+    3.2. best = Max(best, current)
+
+4. return best
+  
+<p align="center">
+  <img src="images/Screen Shot 2022-07-29 at 7.33.00 PM.png" align = "center"/>
+</p>    
+Line 3.1 of the pseudocode is where the magic happens. If 
+current
+current has become less than 0 from including too many or too large negative numbers, the algorithm "throws it away" and resets.
+
+<p align="center">
+  <img src="images/1-9.jpg" align = "center"/>
+</p>  
+
+<p align="center">
+  <img src="images/Screen Shot 2022-07-29 at 7.37.30 PM.png" align = "center"/>
+</p> 
+
+While usage of Kadane's Algorithm is a niche, variations of Kadane's Algorithm can be used to develop extremely efficient DP algorithms. Try the next two practice problems with this in mind. No framework hints are provided here as implementations of Kadane's Algorithm do not typically follow the framework intuitively, although they are still technically dynamic programming (Kadane's Algorithm utilizes optimal sub-structures - it keeps the maximum subarray ending at the previous position in current).
+</details>
+</details>
  <details>
    <summary markdown="span"><strong><h2>Dp for paths in matrix</h2></strong> </summary>
  </details>
